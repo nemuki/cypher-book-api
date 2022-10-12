@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  postgres-cypher:
+    image: postgres:alpine
+    container_name: postgres-cypher-book-api
+    ports:
+      - "5432:5432"
+    volumes:
+      - db-store:/var/lib/postgresql/data
+    environment:
+      LANG: ja_JP.utf8
+      POSTGRES_USER: cypher
+      POSTGRES_PASSWORD: password
+volumes:
+  db-store:
