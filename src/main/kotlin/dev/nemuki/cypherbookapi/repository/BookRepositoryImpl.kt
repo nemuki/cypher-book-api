@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 class BookRepositoryImpl(val jdbcTemplate: JdbcTemplate) : BookRepository {
-    override fun getBook(): List<Book> {
+    override fun getAll(): List<Book> {
         return jdbcTemplate.query("select * from cypher.book") { rs, _ ->
             Book(
                 isbn = rs.getString("isbn"),

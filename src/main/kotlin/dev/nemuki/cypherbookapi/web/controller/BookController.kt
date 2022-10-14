@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class BookController(val bookRepository: BookRepository) {
     @GetMapping("/book")
-    fun getBookList(): List<Book> {
-        return bookRepository.getBook()
+    fun getAllBooks(): List<Book> {
+        return bookRepository.getAll()
     }
 }
