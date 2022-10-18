@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 @RestController
 @RestControllerAdvice
 class BookController(val bookRepository: BookRepository) {
-    @GetMapping("/book")
+    @GetMapping("/books")
     fun getAllBooks(): List<Book> {
         return bookRepository.getAll()
     }
