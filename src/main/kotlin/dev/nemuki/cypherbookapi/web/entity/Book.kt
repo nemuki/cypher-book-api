@@ -1,6 +1,6 @@
 package dev.nemuki.cypherbookapi.web.entity
 
-import java.util.Date
+import java.time.LocalDateTime
 
 data class Book(
     val isbn: String,
@@ -8,6 +8,6 @@ data class Book(
     val author: String,
     val publisher: String,
     val price: Int,
-    val createdAt: Date?,
-    val updatedAt: Date?,
+    val createdAt: LocalDateTime,
+    val updatedAt: LocalDateTime?,
 )
