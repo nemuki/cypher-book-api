@@ -8,6 +8,6 @@ data class Book(
     val author: String,
     val publisher: String,
     val price: Int,
-    val createdAt: LocalDateTime,
+    val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
 )

@@ -14,8 +14,8 @@ class BookRepositoryImpl(val jdbcTemplate: JdbcTemplate) : BookRepository {
                 author = rs.getString("author"),
                 publisher = rs.getString("publisher"),
                 price = rs.getInt("price"),
-                createdAt = rs.getTimestamp("created_at").toLocalDateTime(),
-                updatedAt = rs.getTimestamp("updated_at").toLocalDateTime(),
+                createdAt = rs.getTimestamp("created_at")?.toLocalDateTime(),
+                updatedAt = rs.getTimestamp("updated_at")?.toLocalDateTime(),
             )
         }
     }
