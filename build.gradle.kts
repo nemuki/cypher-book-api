@@ -12,7 +12,7 @@ repositories {
 }
 
 allprojects {
-    group = "dev.nemuki"
+    group = "dev.nemuki.cypherbookapi"
     version = "0.0.1-SNAPSHOT"
 }
 
@@ -35,10 +35,10 @@ subprojects {
     }
 
     tasks {
+        withType<Test> {
+            useJUnitPlatform()
+        }
         withType<KotlinCompile> {
-            withType<Test> {
-                useJUnitPlatform()
-            }
             kotlinOptions {
                 freeCompilerArgs = listOf("-Xjsr305=strict")
                 jvmTarget = "11"
