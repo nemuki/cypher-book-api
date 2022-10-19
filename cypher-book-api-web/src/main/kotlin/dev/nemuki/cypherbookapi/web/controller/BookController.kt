@@ -1,8 +1,6 @@
 package dev.nemuki.cypherbookapi.web.controller
 
-import dev.nemuki.cypherbookapi.repository.BookRepository
-import dev.nemuki.cypherbookapi.web.entity.Book
-import dev.nemuki.cypherbookapi.web.entity.ErrorResponse
+import dev.nemuki.cypherbookapi.entity.Book
 import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
