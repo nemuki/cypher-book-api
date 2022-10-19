@@ -22,9 +22,15 @@ subprojects {
         plugin("org.jetbrains.kotlin.plugin.spring")
     }
 
+    repositories {
+        mavenCentral()
+    }
+
     java.sourceCompatibility = JavaVersion.VERSION_11
 
     dependencies {
+        implementation(platform(org.springframework.boot.gradle.plugin.SpringBootPlugin.BOM_COORDINATES))
+
         implementation("org.springframework.boot:spring-boot-starter-jdbc")
         implementation("org.springframework.boot:spring-boot-starter-web")
         implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -38,7 +44,8 @@ subprojects {
         withType<Test> {
             useJUnitPlatform()
         }
-        withType<KotlinCompile> {
+
+        withType<KotlinCompile>().configureEach {
             kotlinOptions {
                 freeCompilerArgs = listOf("-Xjsr305=strict")
                 jvmTarget = "11"
