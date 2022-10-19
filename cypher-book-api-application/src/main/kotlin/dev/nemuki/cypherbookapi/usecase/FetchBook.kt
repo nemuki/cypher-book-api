@@ -6,7 +6,5 @@ import org.springframework.stereotype.Component
 
 @Component
 class FetchBook (private val bookRepository: BookRepository) {
-    operator fun invoke(): List<Book> {
-        return bookRepository.getAll()
-    }
+    fun fetchAll(): List<Book> = bookRepository.getAll()
 }

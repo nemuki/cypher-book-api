@@ -2,6 +2,7 @@ package dev.nemuki.cypherbookapi.web.controller
 
 import dev.nemuki.cypherbookapi.domain.entity.Book
 import dev.nemuki.cypherbookapi.usecase.FetchBook
+import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import dev.nemuki.cypherbookapi.web.entity.ErrorResponse
 import org.springframework.dao.DataAccessException
 import org.springframework.http.HttpStatus
@@ -17,11 +18,24 @@ class BookController(
     private val fetchBook: FetchBook
 ) {
     @GetMapping("/books")
-    fun getAllBooks(): List<Book> {
-        return fetchBook()
+    fun getAllBooks(): List<BookResponse> {
+        val books = fetchBook.fetchAll()
+        return books.toResponse()
     }
 
     @ExceptionHandler(DataAccessException::class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     fun handleDataAccessException() = ErrorResponse("Failed to access database")
+
+    private fun List<Book>.toResponse(): List<BookResponse> = map {
+        BookResponse(
+            isbn = it.isbn,
+            title = it.title,
+            author = it.author,
+            publisher = it.publisher,
+            price = it.price,
+            createdAt = it.createdAt,
+            updatedAt = it.updatedAt
+        )
+    }
 }
