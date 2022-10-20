@@ -1,4 +1,4 @@
-package dev.nemuki.cypherbookapi.entity
+package dev.nemuki.cypherbookapi.infra.entity
 
 import java.time.LocalDateTime
 

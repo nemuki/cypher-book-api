@@ -1,6 +1,7 @@
-package dev.nemuki.cypherbookapi.repository
+package dev.nemuki.cypherbookapi.infra.repository
 
-import dev.nemuki.cypherbookapi.domain.entity.Book
+import dev.nemuki.cypherbookapi.application.repository.BookRepository
+import dev.nemuki.cypherbookapi.infra.entity.Book
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 

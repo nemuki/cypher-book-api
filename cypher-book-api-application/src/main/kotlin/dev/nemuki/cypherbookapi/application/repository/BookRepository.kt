@@ -1,4 +1,4 @@
-package dev.nemuki.cypherbookapi.repository
+package dev.nemuki.cypherbookapi.application.repository
 
 import dev.nemuki.cypherbookapi.domain.entity.Book
 

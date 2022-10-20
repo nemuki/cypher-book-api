@@ -1,7 +1,7 @@
-package dev.nemuki.cypherbookapi.usecase
+package dev.nemuki.cypherbookapi.application.usecase
 
 import dev.nemuki.cypherbookapi.domain.entity.Book
-import dev.nemuki.cypherbookapi.repository.BookRepository
+import dev.nemuki.cypherbookapi.application.repository.BookRepository
 import org.springframework.stereotype.Component
 
 @Component

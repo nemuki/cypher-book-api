@@ -1,7 +1,7 @@
 package dev.nemuki.cypherbookapi.web.controller
 
 import dev.nemuki.cypherbookapi.domain.entity.Book
-import dev.nemuki.cypherbookapi.usecase.FetchBook
+import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import dev.nemuki.cypherbookapi.web.entity.ErrorResponse
 import org.springframework.dao.DataAccessException
