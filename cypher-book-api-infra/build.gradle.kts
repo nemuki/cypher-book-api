@@ -3,5 +3,6 @@ dependencies {
     implementation(project(":cypher-book-api-domain"))
 
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.mybatis.spring.boot:mybatis-spring-boot-starter:2.2.2")
     runtimeOnly("org.postgresql:postgresql")
 }
