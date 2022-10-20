@@ -3,25 +3,17 @@ package dev.nemuki.cypherbookapi.infra.repository
 import dev.nemuki.cypherbookapi.application.repository.BookRepository
 import dev.nemuki.cypherbookapi.domain.error.system.ResourceAccessError
 import dev.nemuki.cypherbookapi.infra.entity.Book
+import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
 import org.springframework.dao.DataAccessException
-import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
 
 @Repository
-class BookRepositoryImpl(val jdbcTemplate: JdbcTemplate) : BookRepository {
+class BookRepositoryImpl(
+    val bookMapper: BookMapper,
+) : BookRepository {
     override fun getAll(): List<dev.nemuki.cypherbookapi.domain.entity.Book> {
         val books = try {
-            jdbcTemplate.query("select * from cypher.book") { rs, _ ->
-                Book(
-                    isbn = rs.getString("isbn"),
-                    title = rs.getString("title"),
-                    author = rs.getString("author"),
-                    publisher = rs.getString("publisher"),
-                    price = rs.getInt("price"),
-                    createdAt = rs.getTimestamp("created_at")?.toLocalDateTime(),
-                    updatedAt = rs.getTimestamp("updated_at")?.toLocalDateTime(),
-                )
-            }
+            bookMapper.selectAll()
         } catch (ex: DataAccessException) {
             throw ResourceAccessError("fetch error", ex)
         }
