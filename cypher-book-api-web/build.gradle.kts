@@ -4,7 +4,8 @@ dependencies {
     // infra は web には依存しないが CypherBookApiApplication が web に存在するため依存関係に含める必要がある
     implementation(project(":cypher-book-api-infra"))
 
-    implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    // DataAccessException を使用するため
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
 }
