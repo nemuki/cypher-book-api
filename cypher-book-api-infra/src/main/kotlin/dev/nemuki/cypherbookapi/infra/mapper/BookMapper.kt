@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Select
 interface BookMapper {
     @Select(
         """
-            SELECT * from cypher.book
+            SELECT * FROM cypher.book
         """
     )
     fun selectAll(): List<Book>
