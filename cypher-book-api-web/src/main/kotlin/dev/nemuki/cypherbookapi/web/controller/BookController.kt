@@ -8,6 +8,7 @@ import dev.nemuki.cypherbookapi.web.entity.ErrorResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.ResponseStatus
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
@@ -20,6 +21,12 @@ class BookController(
     @GetMapping("/books")
     fun getAllBooks(): List<BookResponse> {
         val books = fetchBook.fetchAll()
+        return books.toResponse()
+    }
+
+    @GetMapping("/books/{isbn}")
+    fun getBook(@PathVariable("isbn") isbn: String): List<BookResponse> {
+        val books = fetchBook.fetch(isbn)
         return books.toResponse()
     }
 
