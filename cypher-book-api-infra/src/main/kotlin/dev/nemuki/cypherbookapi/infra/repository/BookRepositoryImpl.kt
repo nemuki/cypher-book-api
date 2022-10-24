@@ -26,20 +26,20 @@ class BookRepositoryImpl(
             bookMapper.findByIsbn(isbn)
         } catch (ex: DataAccessException) {
             throw ResourceAccessError("fetch error", ex)
-        }
+        } ?: throw DataNotFoundException("No Book found. isbn=${isbn}")
 
-        return toEntity(book)
+        return book.toEntity()
     }
 
-    private fun toEntity(it: Book) =
+    private fun Book.toEntity() =
         dev.nemuki.cypherbookapi.domain.entity.Book(
-            isbn = it.isbn,
-            title = it.title,
-            author = it.author,
-            publisher = it.publisher,
-            price = it.price,
-            createdAt = it.createdAt,
-            updatedAt = it.updatedAt
+            isbn = isbn,
+            title = title,
+            author = author,
+            publisher = publisher,
+            price = price,
+            createdAt = createdAt,
+            updatedAt = updatedAt,
         )
 
     private fun List<Book>.toEntities() = map {

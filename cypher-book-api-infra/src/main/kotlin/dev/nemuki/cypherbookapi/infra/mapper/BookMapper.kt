@@ -19,5 +19,5 @@ interface BookMapper {
             SELECT * FROM cypher.book WHERE isbn = #{isbn}
         """
     )
-    fun findByIsbn(@Param("isbn") isbn: String): Book
+    fun findByIsbn(@Param("isbn") isbn: String): Book?
 }
