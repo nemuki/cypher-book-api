@@ -1,5 +1,6 @@
-package dev.nemuki.cypherbookapi.web.handler
+package dev.nemuki.cypherbookapi.web.advice
 
+import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
 import dev.nemuki.cypherbookapi.domain.error.system.ResourceAccessError
 import dev.nemuki.cypherbookapi.web.entity.ErrorResponse
 import org.springframework.http.HttpStatus
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice
 import javax.validation.ConstraintViolationException
 
 @RestControllerAdvice
-class ErrorHandler {
+class ExceptionHandlerAdvice {
     @ExceptionHandler(ResourceAccessError::class)
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     fun handleDataAccessException() = ErrorResponse("Failed to access database")
@@ -18,4 +19,9 @@ class ErrorHandler {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     fun handleValidationException(ex: ConstraintViolationException) =
         ErrorResponse("invalid parameter: detail: [${ex.localizedMessage}]")
+
+    @ExceptionHandler(DataNotFoundException::class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    fun handleDataNotFoundException(ex: DataNotFoundException) =
+        ErrorResponse(ex.message)
 }

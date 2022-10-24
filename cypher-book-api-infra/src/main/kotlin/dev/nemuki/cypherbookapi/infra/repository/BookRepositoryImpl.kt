@@ -1,6 +1,7 @@
 package dev.nemuki.cypherbookapi.infra.repository
 
 import dev.nemuki.cypherbookapi.application.repository.BookRepository
+import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
 import dev.nemuki.cypherbookapi.domain.error.system.ResourceAccessError
 import dev.nemuki.cypherbookapi.infra.entity.Book
 import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
@@ -22,13 +23,17 @@ class BookRepositoryImpl(
     }
 
     override fun getByIsbn(isbn: String): List<dev.nemuki.cypherbookapi.domain.entity.Book> {
-        val books = try {
+        val book = try {
             bookMapper.select(isbn)
         } catch (ex: DataAccessException) {
             throw ResourceAccessError("fetch error", ex)
         }
 
-        return books.toEntities()
+        if (book.isEmpty()) {
+            throw DataNotFoundException("No Book found. isbn=${isbn}")
+        }
+
+        return book.toEntities()
     }
 
     private fun List<Book>.toEntities() = map {
