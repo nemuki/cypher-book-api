@@ -24,7 +24,7 @@ class BookRepositoryImpl(
 
     override fun getByIsbn(isbn: String): List<dev.nemuki.cypherbookapi.domain.entity.Book> {
         val book = try {
-            bookMapper.select(isbn)
+            bookMapper.findByIsbn(isbn)
         } catch (ex: DataAccessException) {
             throw ResourceAccessError("fetch error", ex)
         }
