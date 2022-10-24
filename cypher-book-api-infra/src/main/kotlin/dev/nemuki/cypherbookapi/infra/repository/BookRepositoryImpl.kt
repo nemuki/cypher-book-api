@@ -21,7 +21,7 @@ class BookRepositoryImpl(
         return books.toEntities()
     }
 
-    override fun get(isbn: String): List<dev.nemuki.cypherbookapi.domain.entity.Book> {
+    override fun getByIsbn(isbn: String): List<dev.nemuki.cypherbookapi.domain.entity.Book> {
         val books = try {
             bookMapper.select(isbn)
         } catch (ex: DataAccessException) {

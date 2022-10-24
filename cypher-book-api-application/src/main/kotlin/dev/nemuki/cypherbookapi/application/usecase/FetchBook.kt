@@ -1,11 +1,11 @@
 package dev.nemuki.cypherbookapi.application.usecase
 
-import dev.nemuki.cypherbookapi.domain.entity.Book
 import dev.nemuki.cypherbookapi.application.repository.BookRepository
+import dev.nemuki.cypherbookapi.domain.entity.Book
 import org.springframework.stereotype.Component
 
 @Component
 class FetchBook (private val bookRepository: BookRepository) {
     fun fetchAll(): List<Book> = bookRepository.getAll()
-    fun fetch(isbn: String): List<Book> = bookRepository.get(isbn)
+    fun fetchByIsbn(isbn: String): List<Book> = bookRepository.getByIsbn(isbn)
 }

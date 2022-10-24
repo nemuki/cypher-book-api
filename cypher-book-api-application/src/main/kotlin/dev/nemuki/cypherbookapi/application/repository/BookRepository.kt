@@ -4,5 +4,5 @@ import dev.nemuki.cypherbookapi.domain.entity.Book
 
 interface BookRepository {
     fun getAll(): List<Book>
-    fun get(isbn: String): List<Book>
+    fun getByIsbn(isbn: String): List<Book>
 }
