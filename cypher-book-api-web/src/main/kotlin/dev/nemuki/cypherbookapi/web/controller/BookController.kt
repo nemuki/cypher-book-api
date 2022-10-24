@@ -39,14 +39,6 @@ class BookController(
     )
 
     private fun List<Book>.toResponse(): List<BookResponse> = map {
-        BookResponse(
-            isbn = it.isbn,
-            title = it.title,
-            author = it.author,
-            publisher = it.publisher,
-            price = it.price,
-            createdAt = it.createdAt,
-            updatedAt = it.updatedAt,
-        )
+        it.toResponse()
     }
 }

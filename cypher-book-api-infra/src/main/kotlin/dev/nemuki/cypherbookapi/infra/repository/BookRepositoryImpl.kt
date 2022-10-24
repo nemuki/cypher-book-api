@@ -44,14 +44,6 @@ class BookRepositoryImpl(
         )
 
     private fun List<Book>.toEntities() = map {
-        dev.nemuki.cypherbookapi.domain.entity.Book(
-            isbn = it.isbn,
-            title = it.title,
-            author = it.author,
-            publisher = it.publisher,
-            price = it.price,
-            createdAt = it.createdAt,
-            updatedAt = it.updatedAt,
-        )
+        it.toEntity()
     }
 }
