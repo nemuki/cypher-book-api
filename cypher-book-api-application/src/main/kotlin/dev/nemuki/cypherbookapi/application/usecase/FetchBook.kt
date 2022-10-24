@@ -7,5 +7,5 @@ import org.springframework.stereotype.Component
 @Component
 class FetchBook (private val bookRepository: BookRepository) {
     fun fetchAll(): List<Book> = bookRepository.getAll()
-    fun fetchByIsbn(isbn: String): List<Book> = bookRepository.getByIsbn(isbn)
+    fun fetchByIsbn(isbn: String): Book = bookRepository.getByIsbn(isbn)
 }

@@ -23,10 +23,20 @@ class BookController(
     }
 
     @GetMapping("/books/{isbn}")
-    fun getBookByIsbn(@PathVariable("isbn") @Pattern(regexp = "^[0-9]{13}$") isbn: String): List<BookResponse> {
+    fun getBookByIsbn(@PathVariable("isbn") @Pattern(regexp = "^[0-9]{13}$") isbn: String): BookResponse {
         val books = fetchBook.fetchByIsbn(isbn)
-        return books.toResponse()
+        return toResponse(books)
     }
+
+    private fun toResponse(it: Book) = BookResponse(
+        isbn = it.isbn,
+        title = it.title,
+        author = it.author,
+        publisher = it.publisher,
+        price = it.price,
+        createdAt = it.createdAt,
+        updatedAt = it.updatedAt
+    )
 
     private fun List<Book>.toResponse(): List<BookResponse> = map {
         BookResponse(
