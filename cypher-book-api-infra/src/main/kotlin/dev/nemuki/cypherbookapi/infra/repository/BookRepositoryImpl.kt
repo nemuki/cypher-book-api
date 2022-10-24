@@ -1,6 +1,7 @@
 package dev.nemuki.cypherbookapi.infra.repository
 
 import dev.nemuki.cypherbookapi.application.repository.BookRepository
+import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
 import dev.nemuki.cypherbookapi.domain.error.system.ResourceAccessError
 import dev.nemuki.cypherbookapi.infra.entity.Book
 import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
@@ -50,7 +51,7 @@ class BookRepositoryImpl(
             publisher = it.publisher,
             price = it.price,
             createdAt = it.createdAt,
-            updatedAt = it.updatedAt
+            updatedAt = it.updatedAt,
         )
     }
 }
