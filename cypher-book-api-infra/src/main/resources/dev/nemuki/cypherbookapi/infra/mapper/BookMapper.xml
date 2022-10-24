@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dev.nemuki.cypherbookapi.infra.mapper.BookMapper">
+    <select id="selectAll" resultType="dev.nemuki.cypherbookapi.infra.entity.Book">
+        SELECT *
+        FROM cypher.book
+    </select>
+    <select id="findByIsbn" resultType="dev.nemuki.cypherbookapi.infra.entity.Book">
+        SELECT *
+        FROM cypher.book
+        WHERE isbn = #{isbn}
+    </select>
+</mapper>
