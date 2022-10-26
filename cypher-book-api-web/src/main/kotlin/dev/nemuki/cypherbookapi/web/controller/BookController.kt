@@ -25,7 +25,7 @@ class BookController(
 
     @GetMapping("/books/{isbn}")
     fun getBookByIsbn(@PathVariable("isbn") @Pattern(regexp = "^[0-9]{13}$") isbn: String): BookResponse {
-        val book = fetchBook.fetchByIsbn(Isbn(isbn).toString())
+        val book = fetchBook.fetchByIsbn(Isbn(isbn).isbn)
         return book.toResponse()
     }
 

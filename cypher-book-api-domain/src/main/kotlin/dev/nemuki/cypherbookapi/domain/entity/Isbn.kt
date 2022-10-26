@@ -7,16 +7,23 @@ data class Isbn(
 ) {
     init {
         // 1 -> 12 文字目までリスト化 → 足し算
-        val isbnSum = isbn.substring(0, 12).toList().mapIndexed { index, digit ->
+        val checksum = isbn.substring(ISBN_CHECK_RANGE).toList().mapIndexed { index, digit ->
             if (index % 2 == 0) {
                 Character.getNumericValue(digit)
             } else {
-                Character.getNumericValue(digit) * 3
+                Character.getNumericValue(digit) * ISBN_CHECK_WEIGHT
             }
         }.sum()
 
-        if (isbnSum % 10 != isbn.substring(12).toInt()) {
+        if (checksum % ISBN_CHECK_MODULO != isbn.substring(ISBN_CHECK_DIGIT).toInt()) {
             throw InvalidIsbnException("$isbn is invalid")
         }
+    }
+
+    companion object {
+        val ISBN_CHECK_RANGE = 0..11
+        const val ISBN_CHECK_WEIGHT = 3
+        const val ISBN_CHECK_MODULO = 10
+        const val ISBN_CHECK_DIGIT = 12
     }
 }
