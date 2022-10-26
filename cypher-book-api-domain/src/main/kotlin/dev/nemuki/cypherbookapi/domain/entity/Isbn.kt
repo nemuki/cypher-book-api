@@ -1,28 +1,22 @@
 package dev.nemuki.cypherbookapi.domain.entity
 
+import dev.nemuki.cypherbookapi.domain.error.business.InvalidIsbnException
+
 data class Isbn(
     val isbn: String,
 ) {
     init {
-        if (isbn.length != 13) {
-            throw IllegalArgumentException()
-        }
-        try {
-            var tot = 0
-            for (i in 0..11) {
-                val digit = isbn.substring(i, i + 1).toInt()
-                tot += if (i % 2 == 0) digit * 1 else digit * 3
-            } //checksum must be 0-9. If calculated as 10 then = 0
-            var checksum = 10 - tot % 10
-            if (checksum == 10) {
-                checksum = 0
+        // 1 -> 12 文字目までリスト化 → 足し算
+        val isbnSum = isbn.substring(0, 11).toList().mapIndexed { index, digit ->
+            if (index % 2 == 0) {
+                digit.code
+            } else {
+                digit.code * 3
             }
-            if (checksum != isbn.substring(12).toInt()) {
-                throw IllegalArgumentException()
-            }
-        } catch (nfe: NumberFormatException) {
-            //to catch invalid ISBNs that have non-numeric characters in them
-            throw IllegalArgumentException()
+        }.sum()
+
+        if (isbnSum % 10 != isbn.substring(12).toInt()) {
+            throw InvalidIsbnException("$isbn is invalid")
         }
     }
 }
