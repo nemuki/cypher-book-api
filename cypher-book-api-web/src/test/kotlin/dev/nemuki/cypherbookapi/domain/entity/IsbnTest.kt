@@ -36,7 +36,7 @@ internal class IsbnTest {
         assertThrows<InvalidIsbnException> {
             Isbn("9784798142471")
         }.let {
-            Assertions.assertEquals("9784798142471 is invalid", it.message)
+            Assertions.assertEquals("9784798142471 is invalid isbn", it.message)
         }
     }
 }

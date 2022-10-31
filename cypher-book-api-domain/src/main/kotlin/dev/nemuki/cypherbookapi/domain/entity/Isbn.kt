@@ -14,16 +14,22 @@ data class Isbn(
                 Character.getNumericValue(digit) * ISBN_CHECK_WEIGHT
             }
         }.sum()
+        val checksumModulo = checksum % ISBN_CHECK_MODULUS
+        val checkDigit = if (checksumModulo == 0) {
+            0
+        } else {
+            ISBN_CHECK_MODULUS - checksumModulo
+        }
 
-        if (checksum % ISBN_CHECK_MODULO != isbn.substring(ISBN_CHECK_DIGIT).toInt()) {
-            throw InvalidIsbnException("$isbn is invalid")
+        if (checkDigit != isbn.substring(ISBN_CHECK_DIGIT_INDEX).toInt()) {
+            throw InvalidIsbnException("$isbn is invalid isbn")
         }
     }
 
     companion object {
         val ISBN_CHECK_RANGE = 0..11
         const val ISBN_CHECK_WEIGHT = 3
-        const val ISBN_CHECK_MODULO = 10
-        const val ISBN_CHECK_DIGIT = 12
+        const val ISBN_CHECK_MODULUS = 10
+        const val ISBN_CHECK_DIGIT_INDEX = 12
     }
 }
