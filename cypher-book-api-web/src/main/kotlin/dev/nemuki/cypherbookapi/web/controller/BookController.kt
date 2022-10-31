@@ -2,6 +2,7 @@ package dev.nemuki.cypherbookapi.web.controller
 
 import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
+import dev.nemuki.cypherbookapi.domain.entity.Isbn
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
@@ -24,7 +25,7 @@ class BookController(
 
     @GetMapping("/books/{isbn}")
     fun getBookByIsbn(@PathVariable("isbn") @Pattern(regexp = "^[0-9]{13}$") isbn: String): BookResponse {
-        val book = fetchBook.fetchByIsbn(isbn)
+        val book = fetchBook.fetchByIsbn(Isbn(isbn).isbn)
         return book.toResponse()
     }
 

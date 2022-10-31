@@ -1,6 +1,7 @@
 package dev.nemuki.cypherbookapi.web.advice
 
 import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
+import dev.nemuki.cypherbookapi.domain.error.business.InvalidIsbnException
 import dev.nemuki.cypherbookapi.domain.error.system.ResourceAccessError
 import dev.nemuki.cypherbookapi.web.entity.ErrorResponse
 import org.springframework.http.HttpStatus
@@ -23,5 +24,10 @@ class ExceptionHandlerAdvice {
     @ExceptionHandler(DataNotFoundException::class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     fun handleDataNotFoundException(ex: DataNotFoundException) =
+        ErrorResponse(ex.message)
+
+    @ExceptionHandler(InvalidIsbnException::class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    fun invalidIsbnExceptionException(ex: InvalidIsbnException) =
         ErrorResponse(ex.message)
 }
