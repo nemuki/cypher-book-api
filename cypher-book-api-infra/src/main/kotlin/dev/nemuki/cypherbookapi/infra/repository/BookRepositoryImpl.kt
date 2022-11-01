@@ -2,7 +2,7 @@ package dev.nemuki.cypherbookapi.infra.repository
 
 import dev.nemuki.cypherbookapi.application.repository.BookRepository
 import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
-import dev.nemuki.cypherbookapi.domain.error.system.ResourceAccessError
+import dev.nemuki.cypherbookapi.domain.error.business.DatabaseAccessException
 import dev.nemuki.cypherbookapi.infra.entity.Book
 import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
 import org.springframework.dao.DataAccessException
@@ -16,7 +16,7 @@ class BookRepositoryImpl(
         val books = try {
             bookMapper.selectAll()
         } catch (ex: DataAccessException) {
-            throw ResourceAccessError("fetch error", ex)
+            throw DatabaseAccessException("BookRepository#getAllでエラーが発生しました")
         }
 
         return books.toEntities()
@@ -26,7 +26,7 @@ class BookRepositoryImpl(
         val book = try {
             bookMapper.findByIsbn(isbn)
         } catch (ex: DataAccessException) {
-            throw ResourceAccessError("fetch error", ex)
+            throw DatabaseAccessException("BookRepository#getByIsbnでエラーが発生しました")
         } ?: throw DataNotFoundException("No Book found. isbn=${isbn}")
 
         return book.toEntity()
