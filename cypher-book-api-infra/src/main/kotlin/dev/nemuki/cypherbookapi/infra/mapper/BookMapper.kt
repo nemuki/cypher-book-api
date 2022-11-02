@@ -7,5 +7,5 @@ import org.apache.ibatis.annotations.Mapper
 interface BookMapper {
     fun selectAll(): List<Book>
     fun findByIsbn(isbn: String): Book?
-    fun insert(isbn: String, title: String, author: String, publisher: String, price: Int)
+    fun insert(book: Book)
 }
