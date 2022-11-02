@@ -32,6 +32,14 @@ class BookRepositoryImpl(
         return book.toEntity()
     }
 
+    override fun insert(book: dev.nemuki.cypherbookapi.domain.entity.Book) {
+        try {
+            bookMapper.insert(book.isbn, book.title, book.author, book.publisher, book.price)
+        } catch (ex: DataAccessException) {
+            throw DatabaseAccessException("BookRepository#insertでエラーが発生しました")
+        }
+    }
+
     private fun Book.toEntity() =
         dev.nemuki.cypherbookapi.domain.entity.Book(
             isbn = isbn,

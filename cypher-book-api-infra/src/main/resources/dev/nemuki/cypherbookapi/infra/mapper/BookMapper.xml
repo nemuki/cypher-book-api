@@ -10,4 +10,8 @@
         FROM cypher.book
         WHERE isbn = #{isbn}
     </select>
+    <insert id="insert">
+        INSERT INTO cypher.book(isbn, title, author, publisher, price)
+        VALUES (#{isbn}, #{title}, #{author}, #{publisher}, #{price})
+    </insert>
 </mapper>
