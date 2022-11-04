@@ -38,7 +38,7 @@ class ExceptionHandlerAdvice {
         ErrorResponse(ex.message)
 
     @ExceptionHandler(AlreadyExistsException::class)
-    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     fun handleAlreadyExistsException(ex: AlreadyExistsException) =
         ErrorResponse(ex.message)
 }
