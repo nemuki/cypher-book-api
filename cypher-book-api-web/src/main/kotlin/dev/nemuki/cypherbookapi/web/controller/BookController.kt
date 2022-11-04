@@ -6,6 +6,7 @@ import dev.nemuki.cypherbookapi.domain.entity.Book
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
 import dev.nemuki.cypherbookapi.web.entity.BookRequest
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
+import dev.nemuki.cypherbookapi.web.entity.SuccessResponse
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -35,8 +36,9 @@ class BookController(
     }
 
     @PostMapping("/books")
-    fun insertBook(@Valid bookRequest: BookRequest) {
+    fun insertBook(@Valid bookRequest: BookRequest): SuccessResponse {
         insertBook.insert(bookRequest.toEntity())
+        return SuccessResponse("insert success")
     }
 
     private fun Book.toResponse() = BookResponse(
