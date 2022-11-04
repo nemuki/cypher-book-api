@@ -1,5 +1,6 @@
 package dev.nemuki.cypherbookapi.web.advice
 
+import dev.nemuki.cypherbookapi.domain.error.business.AlreadyExistsException
 import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
 import dev.nemuki.cypherbookapi.domain.error.business.DatabaseAccessException
 import dev.nemuki.cypherbookapi.domain.error.business.InvalidIsbnException
@@ -34,5 +35,10 @@ class ExceptionHandlerAdvice {
     @ExceptionHandler(InvalidIsbnException::class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     fun invalidIsbnExceptionException(ex: InvalidIsbnException) =
+        ErrorResponse(ex.message)
+
+    @ExceptionHandler(AlreadyExistsException::class)
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)
+    fun handleAlreadyExistsException(ex: AlreadyExistsException) =
         ErrorResponse(ex.message)
 }
