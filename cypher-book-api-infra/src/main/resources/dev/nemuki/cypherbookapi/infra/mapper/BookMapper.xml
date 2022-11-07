@@ -14,4 +14,12 @@
         INSERT INTO cypher.book(isbn, title, author, publisher, price)
         VALUES (#{isbn}, #{title}, #{author}, #{publisher}, #{price})
     </insert>
+    <update id="update">
+        UPDATE cypher.book
+        SET price     = #{title},
+            author    = #{author},
+            publisher = #{publisher},
+            price     = #{price}
+        WHERE isbn = #{isbn}
+    </update>
 </mapper>

@@ -2,13 +2,17 @@ package dev.nemuki.cypherbookapi.web.controller
 
 import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.application.usecase.InsertBook
+import dev.nemuki.cypherbookapi.application.usecase.UpdateBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
+import dev.nemuki.cypherbookapi.domain.entity.UpdateBookEntity
 import dev.nemuki.cypherbookapi.web.entity.BookRequest
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import dev.nemuki.cypherbookapi.web.entity.SuccessResponse
+import dev.nemuki.cypherbookapi.web.entity.UpdateBookRequest
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
@@ -22,6 +26,7 @@ import javax.validation.constraints.Pattern
 class BookController(
     private val fetchBook: FetchBook,
     private val insertBook: InsertBook,
+    private val updateBook: UpdateBook,
 ) {
     @GetMapping("/books")
     fun getAllBooks(): List<BookResponse> {
@@ -39,6 +44,15 @@ class BookController(
     fun insertBook(@Valid bookRequest: BookRequest): SuccessResponse {
         insertBook.insert(bookRequest.toEntity())
         return SuccessResponse("insert success")
+    }
+
+    @PatchMapping("/books/{isbn}")
+    fun updateBook(
+        @PathVariable("isbn") @Pattern(regexp = "^[0-9]{13}$") isbn: String,
+        @Valid updateBookRequest: UpdateBookRequest,
+    ): SuccessResponse {
+        updateBook.update(isbn, updateBookRequest.toEntity())
+        return SuccessResponse("update success")
     }
 
     private fun Book.toResponse() = BookResponse(
@@ -59,6 +73,13 @@ class BookController(
         price = price,
         createdAt = null,
         updatedAt = null,
+    )
+
+    private fun UpdateBookRequest.toEntity() = UpdateBookEntity(
+        title = title,
+        author = author,
+        publisher = publisher,
+        price = price,
     )
 
     private fun List<Book>.toResponse(): List<BookResponse> = map {

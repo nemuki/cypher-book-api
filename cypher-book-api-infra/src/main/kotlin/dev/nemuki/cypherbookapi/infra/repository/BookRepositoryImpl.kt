@@ -5,6 +5,7 @@ import dev.nemuki.cypherbookapi.domain.error.business.AlreadyExistsException
 import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
 import dev.nemuki.cypherbookapi.domain.error.business.DatabaseAccessException
 import dev.nemuki.cypherbookapi.infra.entity.Book
+import dev.nemuki.cypherbookapi.infra.entity.UpdateBook
 import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
 import org.springframework.dao.DataAccessException
 import org.springframework.dao.DuplicateKeyException
@@ -51,6 +52,26 @@ class BookRepositoryImpl(
             throw AlreadyExistsException("${book.isbn} は登録済みのISBNです。")
         } catch (ex: DataAccessException) {
             throw DatabaseAccessException("BookRepository#insertでエラーが発生しました")
+        }
+    }
+
+    override fun update(
+        isbn: String,
+        currentBookState: dev.nemuki.cypherbookapi.domain.entity.Book,
+        updateBookEntity: dev.nemuki.cypherbookapi.domain.entity.UpdateBookEntity,
+    ) {
+        try {
+            bookMapper.update(
+                UpdateBook(
+                    isbn = isbn,
+                    title = updateBookEntity.title ?: currentBookState.title,
+                    author = updateBookEntity.author ?: currentBookState.author,
+                    publisher = updateBookEntity.publisher ?: currentBookState.publisher,
+                    price = updateBookEntity.price ?: currentBookState.price,
+                )
+            )
+        } catch (ex: DataAccessException) {
+            throw DatabaseAccessException("BookRepository#updateでエラーが発生しました")
         }
     }
 
