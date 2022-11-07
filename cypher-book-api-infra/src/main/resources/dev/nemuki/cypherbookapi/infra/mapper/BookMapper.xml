@@ -16,7 +16,7 @@
     </insert>
     <update id="update">
         UPDATE cypher.book
-        SET price     = #{title},
+        SET title     = #{title},
             author    = #{author},
             publisher = #{publisher},
             price     = #{price}
