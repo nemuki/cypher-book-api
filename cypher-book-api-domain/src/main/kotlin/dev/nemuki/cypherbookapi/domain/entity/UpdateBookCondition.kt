@@ -1,6 +1,6 @@
 package dev.nemuki.cypherbookapi.domain.entity
 
-data class BookUpdateCondition(
+data class UpdateBookCondition(
     val title: String?,
     val author: String?,
     val publisher: String?,
