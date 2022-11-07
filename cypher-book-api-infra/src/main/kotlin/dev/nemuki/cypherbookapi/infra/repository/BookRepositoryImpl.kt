@@ -58,16 +58,16 @@ class BookRepositoryImpl(
     override fun update(
         isbn: String,
         currentBookState: dev.nemuki.cypherbookapi.domain.entity.Book,
-        updateBookEntity: dev.nemuki.cypherbookapi.domain.entity.UpdateBookEntity,
+        bookUpdateCondition: dev.nemuki.cypherbookapi.domain.entity.BookUpdateCondition,
     ) {
         try {
             bookMapper.update(
                 UpdateBook(
                     isbn = isbn,
-                    title = updateBookEntity.title ?: currentBookState.title,
-                    author = updateBookEntity.author ?: currentBookState.author,
-                    publisher = updateBookEntity.publisher ?: currentBookState.publisher,
-                    price = updateBookEntity.price ?: currentBookState.price,
+                    title = bookUpdateCondition.title ?: currentBookState.title,
+                    author = bookUpdateCondition.author ?: currentBookState.author,
+                    publisher = bookUpdateCondition.publisher ?: currentBookState.publisher,
+                    price = bookUpdateCondition.price ?: currentBookState.price,
                 )
             )
         } catch (ex: DataAccessException) {

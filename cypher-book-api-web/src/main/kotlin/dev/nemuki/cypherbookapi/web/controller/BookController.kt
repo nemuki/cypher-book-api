@@ -4,8 +4,8 @@ import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.application.usecase.InsertBook
 import dev.nemuki.cypherbookapi.application.usecase.UpdateBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
+import dev.nemuki.cypherbookapi.domain.entity.BookUpdateCondition
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
-import dev.nemuki.cypherbookapi.domain.entity.UpdateBookEntity
 import dev.nemuki.cypherbookapi.web.entity.BookRequest
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import dev.nemuki.cypherbookapi.web.entity.SuccessResponse
@@ -75,7 +75,7 @@ class BookController(
         updatedAt = null,
     )
 
-    private fun UpdateBookRequest.toEntity() = UpdateBookEntity(
+    private fun UpdateBookRequest.toEntity() = BookUpdateCondition(
         title = title,
         author = author,
         publisher = publisher,
