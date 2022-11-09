@@ -36,10 +36,11 @@ class BookRepositoryImpl(
     }
 
     override fun insert(insertBookCondition: dev.nemuki.cypherbookapi.domain.entity.InsertBookCondition) {
+        val isbn = insertBookCondition.isbn
         try {
             bookMapper.insert(
                 InsertBook(
-                    isbn = insertBookCondition.isbn,
+                    isbn = isbn,
                     title = insertBookCondition.title,
                     author = insertBookCondition.author,
                     publisher = insertBookCondition.publisher,
@@ -47,7 +48,7 @@ class BookRepositoryImpl(
                 )
             )
         } catch (ex: DuplicateKeyException) {
-            throw AlreadyExistsException("${insertBookCondition.isbn} は登録済みのISBNです。")
+            throw AlreadyExistsException("$isbn は登録済みのISBNです。")
         } catch (ex: DataAccessException) {
             throw DatabaseAccessException("BookRepository#insertでエラーが発生しました")
         }
