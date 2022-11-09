@@ -4,10 +4,11 @@ import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.application.usecase.InsertBook
 import dev.nemuki.cypherbookapi.application.usecase.UpdateBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
+import dev.nemuki.cypherbookapi.domain.entity.InsertBookCondition
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
 import dev.nemuki.cypherbookapi.domain.entity.UpdateBookCondition
-import dev.nemuki.cypherbookapi.web.entity.BookRequest
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
+import dev.nemuki.cypherbookapi.web.entity.InsertBookRequest
 import dev.nemuki.cypherbookapi.web.entity.SuccessResponse
 import dev.nemuki.cypherbookapi.web.entity.UpdateBookRequest
 import org.springframework.validation.annotation.Validated
@@ -41,8 +42,8 @@ class BookController(
     }
 
     @PostMapping("/books")
-    fun insertBook(@Valid bookRequest: BookRequest): SuccessResponse {
-        insertBook.insert(bookRequest.toEntity())
+    fun insertBook(@Valid insertBookRequest: InsertBookRequest): SuccessResponse {
+        insertBook.insert(insertBookRequest.toEntity())
         return SuccessResponse("insert success")
     }
 
@@ -65,14 +66,12 @@ class BookController(
         updatedAt = updatedAt
     )
 
-    private fun BookRequest.toEntity() = Book(
+    private fun InsertBookRequest.toEntity() = InsertBookCondition(
         isbn = Isbn(isbn).isbn,
         title = title,
         author = author,
         publisher = publisher,
         price = price,
-        createdAt = null,
-        updatedAt = null,
     )
 
     private fun UpdateBookRequest.toEntity() = UpdateBookCondition(
