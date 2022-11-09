@@ -3,7 +3,7 @@ package dev.nemuki.cypherbookapi.web.entity
 import org.springframework.lang.NonNull
 import javax.validation.constraints.Size
 
-data class BookRequest(
+data class InsertBookRequest(
     @NonNull
     @Size(min = 13, max = 13)
     val isbn: String,

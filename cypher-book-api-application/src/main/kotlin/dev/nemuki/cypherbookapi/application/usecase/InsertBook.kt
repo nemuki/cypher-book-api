@@ -1,10 +1,10 @@
 package dev.nemuki.cypherbookapi.application.usecase
 
 import dev.nemuki.cypherbookapi.application.repository.BookRepository
-import dev.nemuki.cypherbookapi.domain.entity.Book
+import dev.nemuki.cypherbookapi.domain.entity.InsertBookCondition
 import org.springframework.stereotype.Component
 
 @Component
 class InsertBook(private val bookRepository: BookRepository) {
-    fun insert(book: Book) = bookRepository.insert(book)
+    fun insert(insertBookCondition: InsertBookCondition) = bookRepository.insert(insertBookCondition)
 }

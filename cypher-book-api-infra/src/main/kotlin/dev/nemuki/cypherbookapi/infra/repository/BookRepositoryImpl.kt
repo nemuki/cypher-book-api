@@ -5,6 +5,7 @@ import dev.nemuki.cypherbookapi.domain.error.business.AlreadyExistsException
 import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
 import dev.nemuki.cypherbookapi.domain.error.business.DatabaseAccessException
 import dev.nemuki.cypherbookapi.infra.entity.Book
+import dev.nemuki.cypherbookapi.infra.entity.InsertBook
 import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
 import org.springframework.dao.DataAccessException
 import org.springframework.dao.DuplicateKeyException
@@ -34,21 +35,19 @@ class BookRepositoryImpl(
         return book.toEntity()
     }
 
-    override fun insert(book: dev.nemuki.cypherbookapi.domain.entity.Book) {
+    override fun insert(insertBookCondition: dev.nemuki.cypherbookapi.domain.entity.InsertBookCondition) {
         try {
             bookMapper.insert(
-                Book(
-                    book.isbn,
-                    book.title,
-                    book.author,
-                    book.publisher,
-                    book.price,
-                    book.createdAt,
-                    book.updatedAt
+                InsertBook(
+                    isbn = insertBookCondition.isbn,
+                    title = insertBookCondition.title,
+                    author = insertBookCondition.author,
+                    publisher = insertBookCondition.publisher,
+                    price = insertBookCondition.price,
                 )
             )
         } catch (ex: DuplicateKeyException) {
-            throw AlreadyExistsException("${book.isbn} は登録済みのISBNです。")
+            throw AlreadyExistsException("${insertBookCondition.isbn} は登録済みのISBNです。")
         } catch (ex: DataAccessException) {
             throw DatabaseAccessException("BookRepository#insertでエラーが発生しました")
         }
