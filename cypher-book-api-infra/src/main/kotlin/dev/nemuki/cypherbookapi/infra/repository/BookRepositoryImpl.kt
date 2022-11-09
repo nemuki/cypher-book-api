@@ -48,7 +48,7 @@ class BookRepositoryImpl(
                 )
             )
         } catch (ex: DuplicateKeyException) {
-            throw AlreadyExistsException("${book.isbn} は登録済みのISBNです。")
+            throw AlreadyExistsException("${insertBookCondition.isbn} は登録済みのISBNです。")
         } catch (ex: DataAccessException) {
             throw DatabaseAccessException("BookRepository#insertでエラーが発生しました")
         }
