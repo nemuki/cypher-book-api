@@ -3,7 +3,6 @@ package dev.nemuki.cypherbookapi.web.controller
 import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.application.usecase.InsertBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
-import dev.nemuki.cypherbookapi.domain.entity.InsertBookCondition
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import dev.nemuki.cypherbookapi.web.entity.InsertBookRequest
@@ -52,12 +51,14 @@ class BookController(
         updatedAt = updatedAt
     )
 
-    private fun InsertBookRequest.toEntity() = InsertBookCondition(
-        isbn = Isbn(isbn),
+    private fun InsertBookRequest.toEntity() = Book(
+        isbn = Isbn(isbn).isbn,
         title = title,
         author = author,
         publisher = publisher,
         price = price,
+        createdAt = null,
+        updatedAt = null
     )
 
     private fun List<Book>.toResponse(): List<BookResponse> = map {
