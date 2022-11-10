@@ -36,7 +36,7 @@ class BookRepositoryImpl(
     }
 
     override fun insert(insertBookCondition: dev.nemuki.cypherbookapi.domain.entity.InsertBookCondition) {
-        val isbn = insertBookCondition.isbn
+        val isbn = insertBookCondition.isbn.isbn
         try {
             bookMapper.insert(
                 InsertBook(

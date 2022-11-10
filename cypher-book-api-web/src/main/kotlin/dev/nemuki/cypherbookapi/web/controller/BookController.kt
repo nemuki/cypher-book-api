@@ -53,7 +53,7 @@ class BookController(
     )
 
     private fun InsertBookRequest.toEntity() = InsertBookCondition(
-        isbn = Isbn(isbn).isbn,
+        isbn = Isbn(isbn),
         title = title,
         author = author,
         publisher = publisher,
