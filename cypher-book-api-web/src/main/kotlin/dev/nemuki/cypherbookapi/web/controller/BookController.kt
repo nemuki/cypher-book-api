@@ -43,9 +43,10 @@ class BookController(
         bindingResult: BindingResult,
     ): SuccessResponse {
         if (bindingResult.hasErrors()) {
-            val validationMessages = bindingResult.allErrors.map {
+
+            val validationMessages = bindingResult.fieldErrors.map {
                 InvalidArgumentException.ValidationErrorMessage(
-                    field = it.objectName,
+                    field = it.field,
                     description = it.defaultMessage
                 )
             }
