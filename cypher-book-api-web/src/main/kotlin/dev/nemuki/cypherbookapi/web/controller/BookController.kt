@@ -5,8 +5,8 @@ import dev.nemuki.cypherbookapi.application.usecase.InsertBook
 import dev.nemuki.cypherbookapi.application.usecase.UpdateBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
-import dev.nemuki.cypherbookapi.domain.error.business.InvalidArgumentException
 import dev.nemuki.cypherbookapi.domain.entity.UpdateBookCondition
+import dev.nemuki.cypherbookapi.domain.error.business.InvalidArgumentException
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import dev.nemuki.cypherbookapi.web.entity.InsertBookRequest
 import dev.nemuki.cypherbookapi.web.entity.SuccessResponse
@@ -63,8 +63,18 @@ class BookController(
     @PatchMapping("/books/{isbn}")
     fun updateBook(
         @PathVariable("isbn") @Pattern(regexp = "^[0-9]{13}$") isbn: String,
-        @Valid updateBookRequest: UpdateBookRequest,
+        @Validated updateBookRequest: UpdateBookRequest,
+        bindingResult: BindingResult,
     ): SuccessResponse {
+        if (bindingResult.hasErrors()) {
+            val validationMessages = bindingResult.fieldErrors.map {
+                InvalidArgumentException.ValidationErrorMessage(
+                    field = it.field,
+                    description = it.defaultMessage
+                )
+            }
+            throw InvalidArgumentException(validationMessages)
+        }
         updateBook.update(isbn, updateBookRequest.toEntity())
         return SuccessResponse("update success")
     }
