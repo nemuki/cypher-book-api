@@ -4,13 +4,14 @@ import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.application.usecase.InsertBook
 import dev.nemuki.cypherbookapi.application.usecase.UpdateBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
-import dev.nemuki.cypherbookapi.domain.entity.InsertBookCondition
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
 import dev.nemuki.cypherbookapi.domain.entity.UpdateBookCondition
+import dev.nemuki.cypherbookapi.domain.error.business.InvalidArgumentException
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import dev.nemuki.cypherbookapi.web.entity.InsertBookRequest
 import dev.nemuki.cypherbookapi.web.entity.SuccessResponse
 import dev.nemuki.cypherbookapi.web.entity.UpdateBookRequest
+import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import javax.validation.Valid
 import javax.validation.constraints.Pattern
 
 @Validated
@@ -42,7 +42,19 @@ class BookController(
     }
 
     @PostMapping("/books")
-    fun insertBook(@Valid insertBookRequest: InsertBookRequest): SuccessResponse {
+    fun insertBook(
+        @Validated insertBookRequest: InsertBookRequest,
+        bindingResult: BindingResult,
+    ): SuccessResponse {
+        if (bindingResult.hasErrors()) {
+            val validationMessages = bindingResult.fieldErrors.map {
+                InvalidArgumentException.ValidationErrorMessage(
+                    field = it.field,
+                    description = it.defaultMessage
+                )
+            }
+            throw InvalidArgumentException(validationMessages)
+        }
         insertBook.insert(insertBookRequest.toEntity())
         return SuccessResponse("insert success")
     }
@@ -50,8 +62,18 @@ class BookController(
     @PatchMapping("/books/{isbn}")
     fun updateBook(
         @PathVariable("isbn") @Pattern(regexp = "^[0-9]{13}$") isbn: String,
-        @Valid updateBookRequest: UpdateBookRequest,
+        @Validated updateBookRequest: UpdateBookRequest,
+        bindingResult: BindingResult,
     ): SuccessResponse {
+        if (bindingResult.hasErrors()) {
+            val validationMessages = bindingResult.fieldErrors.map {
+                InvalidArgumentException.ValidationErrorMessage(
+                    field = it.field,
+                    description = it.defaultMessage
+                )
+            }
+            throw InvalidArgumentException(validationMessages)
+        }
         updateBook.update(isbn, updateBookRequest.toEntity())
         return SuccessResponse("update success")
     }
@@ -66,12 +88,14 @@ class BookController(
         updatedAt = updatedAt
     )
 
-    private fun InsertBookRequest.toEntity() = InsertBookCondition(
+    private fun InsertBookRequest.toEntity() = Book(
         isbn = Isbn(isbn).isbn,
         title = title,
         author = author,
         publisher = publisher,
         price = price,
+        createdAt = null,
+        updatedAt = null
     )
 
     private fun UpdateBookRequest.toEntity() = UpdateBookCondition(

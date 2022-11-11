@@ -36,16 +36,16 @@ class BookRepositoryImpl(
         return book.toEntity()
     }
 
-    override fun insert(insertBookCondition: dev.nemuki.cypherbookapi.domain.entity.InsertBookCondition) {
-        val isbn = insertBookCondition.isbn
+    override fun insert(book: dev.nemuki.cypherbookapi.domain.entity.Book) {
+        val isbn = book.isbn
         try {
             bookMapper.insert(
                 InsertBook(
                     isbn = isbn,
-                    title = insertBookCondition.title,
-                    author = insertBookCondition.author,
-                    publisher = insertBookCondition.publisher,
-                    price = insertBookCondition.price,
+                    title = book.title,
+                    author = book.author,
+                    publisher = book.publisher,
+                    price = book.price,
                 )
             )
         } catch (ex: DuplicateKeyException) {
