@@ -1,25 +1,31 @@
 package dev.nemuki.cypherbookapi.web.entity
 
-import org.springframework.lang.NonNull
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
 data class InsertBookRequest(
-    @NonNull
-    @Size(min = 13, max = 13)
+    @get:NotEmpty
+    @field:NotNull
+    @field:Pattern(regexp = "^[0-9]{13}$")
     val isbn: String,
 
-    @NonNull
-    @Size(max = 100)
+    @get:NotEmpty
+    @field:NotNull
+    @field:Size(max = 100)
     val title: String,
 
-    @NonNull
-    @Size(max = 100)
+    @get:NotEmpty
+    @field:NotNull
+    @field:Size(max = 100)
     val author: String,
 
-    @NonNull
-    @Size(max = 100)
+    @get:NotEmpty
+    @field:NotNull
+    @field:Size(max = 100)
     val publisher: String,
 
-    @NonNull
+    @field:NotNull
     val price: Int,
 )

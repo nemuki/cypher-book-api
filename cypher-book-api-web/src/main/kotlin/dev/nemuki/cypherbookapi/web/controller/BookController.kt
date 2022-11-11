@@ -4,13 +4,14 @@ import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.application.usecase.InsertBook
 import dev.nemuki.cypherbookapi.application.usecase.UpdateBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
-import dev.nemuki.cypherbookapi.domain.entity.InsertBookCondition
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
+import dev.nemuki.cypherbookapi.domain.error.business.InvalidArgumentException
 import dev.nemuki.cypherbookapi.domain.entity.UpdateBookCondition
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import dev.nemuki.cypherbookapi.web.entity.InsertBookRequest
 import dev.nemuki.cypherbookapi.web.entity.SuccessResponse
 import dev.nemuki.cypherbookapi.web.entity.UpdateBookRequest
+import org.springframework.validation.BindingResult
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PatchMapping
@@ -42,7 +43,19 @@ class BookController(
     }
 
     @PostMapping("/books")
-    fun insertBook(@Valid insertBookRequest: InsertBookRequest): SuccessResponse {
+    fun insertBook(
+        @Valid insertBookRequest: InsertBookRequest,
+        bindingResult: BindingResult,
+    ): SuccessResponse {
+        if (bindingResult.hasErrors()) {
+            val validationMessages = bindingResult.allErrors.map {
+                InvalidArgumentException.ValidationErrorMessage(
+                    field = it.objectName,
+                    description = it.defaultMessage
+                )
+            }
+            throw InvalidArgumentException(validationMessages)
+        }
         insertBook.insert(insertBookRequest.toEntity())
         return SuccessResponse("insert success")
     }
@@ -66,12 +79,14 @@ class BookController(
         updatedAt = updatedAt
     )
 
-    private fun InsertBookRequest.toEntity() = InsertBookCondition(
+    private fun InsertBookRequest.toEntity() = Book(
         isbn = Isbn(isbn).isbn,
         title = title,
         author = author,
         publisher = publisher,
         price = price,
+        createdAt = null,
+        updatedAt = null
     )
 
     private fun UpdateBookRequest.toEntity() = UpdateBookCondition(
