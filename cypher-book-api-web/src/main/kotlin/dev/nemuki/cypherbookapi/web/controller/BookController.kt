@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.RestControllerAdvice
-import javax.validation.Valid
 import javax.validation.constraints.Pattern
 
 @Validated
@@ -44,13 +43,13 @@ class BookController(
 
     @PostMapping("/books")
     fun insertBook(
-        @Valid insertBookRequest: InsertBookRequest,
+        @Validated insertBookRequest: InsertBookRequest,
         bindingResult: BindingResult,
     ): SuccessResponse {
         if (bindingResult.hasErrors()) {
-            val validationMessages = bindingResult.allErrors.map {
+            val validationMessages = bindingResult.fieldErrors.map {
                 InvalidArgumentException.ValidationErrorMessage(
-                    field = it.objectName,
+                    field = it.field,
                     description = it.defaultMessage
                 )
             }
