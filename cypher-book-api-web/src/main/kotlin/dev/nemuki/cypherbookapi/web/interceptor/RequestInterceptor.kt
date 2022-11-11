@@ -3,6 +3,7 @@ package dev.nemuki.cypherbookapi.web.interceptor
 import dev.nemuki.cypherbookapi.web.controller.BookController
 import org.slf4j.LoggerFactory
 import org.springframework.web.servlet.HandlerInterceptor
+import org.springframework.web.util.ContentCachingRequestWrapper
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 
@@ -22,6 +23,14 @@ class RequestInterceptor : HandlerInterceptor {
         }
         logger.debug("Method = ${request.method}")
         logger.debug("URI = ${request.requestURI}")
+
+        val requestWrapper = ContentCachingRequestWrapper(request)
+        val requestParameterNames = requestWrapper.parameterNames
+        while (requestParameterNames.hasMoreElements()) {
+            val parameterName = requestParameterNames.nextElement()
+            val parameterValue = request.getParameter(parameterName)
+            logger.debug("Body = $parameterName $parameterValue")
+        }
         return true
     }
 
