@@ -12,7 +12,6 @@ class RequestInterceptor : HandlerInterceptor {
         response: HttpServletResponse,
         handler: Any,
     ): Boolean {
-
         val headerNames = request.headerNames
         while (headerNames.hasMoreElements()) {
             // ヘッダ名と値を取得
@@ -21,6 +20,8 @@ class RequestInterceptor : HandlerInterceptor {
 
             logger.debug("$headerName = $headerValue")
         }
+        logger.debug("Method = ${request.method}")
+        logger.debug("URI = ${request.requestURI}")
         return true
     }
 

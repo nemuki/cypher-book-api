@@ -16,6 +16,6 @@ class WebMvcConfig : WebMvcConfigurer {
     override fun addInterceptors(registry: InterceptorRegistry) {
         registry
             .addInterceptor(RequestInterceptor())
-            .addPathPatterns("/books*")
+            .addPathPatterns("/books/**")
     }
 }
