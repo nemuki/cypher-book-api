@@ -14,7 +14,7 @@ class RequestInterceptor : HandlerInterceptor {
         handler: Any,
     ): Boolean {
         val requestWrapper = ContentCachingRequestWrapper(request)
-        // ヘッダー
+        // Request Header
         val headerNames = requestWrapper.headerNames
         while (headerNames.hasMoreElements()) {
             val headerName = headerNames.nextElement()
@@ -23,7 +23,7 @@ class RequestInterceptor : HandlerInterceptor {
         }
         logger.debug("Method = ${requestWrapper.method}")
         logger.debug("URI = ${requestWrapper.requestURI}")
-        // リクエストボディ
+        // Body
         val requestParameterNames = requestWrapper.parameterNames
         while (requestParameterNames.hasMoreElements()) {
             val parameterName = requestParameterNames.nextElement()
