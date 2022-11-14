@@ -89,7 +89,7 @@ class BookController(
     )
 
     private fun InsertBookRequest.toEntity(): Book {
-        validateHogeHoge(publisher, price)
+        validatePublishedByHogeHoge(publisher, price)
         return Book(
             isbn = Isbn(isbn).isbn,
             title = title,
@@ -103,7 +103,7 @@ class BookController(
 
     private fun UpdateBookRequest.toEntity(): UpdateBookCondition {
         if (publisher != null && price != null) {
-            validateHogeHoge(publisher, price)
+            validatePublishedByHogeHoge(publisher, price)
         }
         return UpdateBookCondition(
             title = title,
@@ -113,8 +113,8 @@ class BookController(
         )
     }
 
-    private fun validateHogeHoge(publisher: String, price: Int) {
-        if (publisher == "ほげほげ書店" && price < 1000) {
+    private fun validatePublishedByHogeHoge(publisher: String, price: Int) {
+        if (publisher == VALID_PUBLISHER && price < VALID_PRICE) {
             throw InvalidArgumentException(
                 listOf(
                     InvalidArgumentException.ValidationErrorMessage(
@@ -128,5 +128,10 @@ class BookController(
 
     private fun List<Book>.toResponse(): List<BookResponse> = map {
         it.toResponse()
+    }
+
+    companion object {
+        const val VALID_PUBLISHER = "ほげほげ書店"
+        const val VALID_PRICE = 1000
     }
 }
