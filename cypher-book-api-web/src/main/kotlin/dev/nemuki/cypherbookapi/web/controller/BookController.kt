@@ -119,7 +119,7 @@ class BookController(
                 listOf(
                     InvalidArgumentException.ValidationErrorMessage(
                         field = "price",
-                        description = "ほげほげ書店はpriceが1000より大きい必要があります"
+                        description = "ほげほげ書店はpriceが${VALID_PRICE}より大きい必要があります"
                     )
                 )
             )
