@@ -13,23 +13,22 @@ class RequestInterceptor : HandlerInterceptor {
         response: HttpServletResponse,
         handler: Any,
     ): Boolean {
-        val headerNames = request.headerNames
+        val requestWrapper = ContentCachingRequestWrapper(request)
+        // ヘッダー
+        val headerNames = requestWrapper.headerNames
         while (headerNames.hasMoreElements()) {
-            // ヘッダ名と値を取得
             val headerName = headerNames.nextElement()
-            val headerValue = request.getHeader(headerName)
-
+            val headerValue = requestWrapper.getHeader(headerName)
             logger.debug("$headerName = $headerValue")
         }
-        logger.debug("Method = ${request.method}")
-        logger.debug("URI = ${request.requestURI}")
-
-        val requestWrapper = ContentCachingRequestWrapper(request)
+        logger.debug("Method = ${requestWrapper.method}")
+        logger.debug("URI = ${requestWrapper.requestURI}")
+        // リクエストボディ
         val requestParameterNames = requestWrapper.parameterNames
         while (requestParameterNames.hasMoreElements()) {
             val parameterName = requestParameterNames.nextElement()
-            val parameterValue = request.getParameter(parameterName)
-            logger.debug("Body = $parameterName $parameterValue")
+            val parameterValue = requestWrapper.getParameter(parameterName)
+            logger.debug("$parameterName = $parameterValue")
         }
         return true
     }
