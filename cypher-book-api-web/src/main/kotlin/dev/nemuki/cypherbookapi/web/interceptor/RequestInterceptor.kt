@@ -1,6 +1,5 @@
 package dev.nemuki.cypherbookapi.web.interceptor
 
-import dev.nemuki.cypherbookapi.web.controller.BookController
 import org.slf4j.LoggerFactory
 import org.springframework.web.servlet.HandlerInterceptor
 import org.springframework.web.util.ContentCachingRequestWrapper
@@ -34,6 +33,6 @@ class RequestInterceptor : HandlerInterceptor {
     }
 
     companion object {
-        private val logger = LoggerFactory.getLogger(BookController::class.java)
+        private val logger = LoggerFactory.getLogger(RequestInterceptor::class.java)
     }
 }
