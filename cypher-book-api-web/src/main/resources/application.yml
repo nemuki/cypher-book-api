@@ -14,6 +14,10 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
 
+server:
+  compression:
+    enabled: true
+
 logging:
   level:
     dev.nemuki.cypherbookapi: DEBUG
