@@ -114,7 +114,7 @@ class BookController(
     }
 
     private fun validatePublishedByHogeHoge(publisher: String, price: Int) {
-        if (publisher == VALID_PUBLISHER && price < VALID_PRICE) {
+        if (publisher == "ほげほげ書店" && price < VALID_PRICE) {
             throw InvalidArgumentException(
                 listOf(
                     InvalidArgumentException.ValidationErrorMessage(
@@ -131,7 +131,6 @@ class BookController(
     }
 
     companion object {
-        const val VALID_PUBLISHER = "ほげほげ書店"
         const val VALID_PRICE = 1000
     }
 }
