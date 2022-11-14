@@ -1,5 +1,6 @@
 package dev.nemuki.cypherbookapi.web.entity
 
+import dev.nemuki.cypherbookapi.domain.error.business.InvalidArgumentException
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
@@ -28,4 +29,19 @@ data class InsertBookRequest(
 
     @field:NotNull
     val price: Int,
-)
+) {
+    init {
+        if (publisher == "ほげほげ書店") {
+            if (price < 1000) {
+                throw InvalidArgumentException(
+                    listOf(
+                        InvalidArgumentException.ValidationErrorMessage(
+                            field = "price",
+                            description = "ほげほげ書店はpriceが1000より大きい必要があります"
+                        )
+                    )
+                )
+            }
+        }
+    }
+}
