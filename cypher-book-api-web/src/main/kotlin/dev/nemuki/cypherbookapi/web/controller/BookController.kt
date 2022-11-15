@@ -88,49 +88,24 @@ class BookController(
         updatedAt = updatedAt
     )
 
-    private fun InsertBookRequest.toEntity(): Book {
-        validatePublishedByHogeHoge(publisher, price)
-        return Book(
-            isbn = Isbn(isbn).isbn,
-            title = title,
-            author = author,
-            publisher = publisher,
-            price = price,
-            createdAt = null,
-            updatedAt = null
-        )
-    }
+    private fun InsertBookRequest.toEntity() = Book(
+        isbn = Isbn(isbn).isbn,
+        title = title,
+        author = author,
+        publisher = publisher,
+        price = price,
+        createdAt = null,
+        updatedAt = null
+    )
 
-    private fun UpdateBookRequest.toEntity(): UpdateBookCondition {
-        if (publisher != null && price != null) {
-            validatePublishedByHogeHoge(publisher, price)
-        }
-        return UpdateBookCondition(
-            title = title,
-            author = author,
-            publisher = publisher,
-            price = price,
-        )
-    }
-
-    private fun validatePublishedByHogeHoge(publisher: String, price: Int) {
-        if (publisher == "ほげほげ書店" && price < VALID_PRICE) {
-            throw InvalidArgumentException(
-                listOf(
-                    InvalidArgumentException.ValidationErrorMessage(
-                        field = "price",
-                        description = "ほげほげ書店はpriceが${VALID_PRICE}より大きい必要があります"
-                    )
-                )
-            )
-        }
-    }
+    private fun UpdateBookRequest.toEntity() = UpdateBookCondition(
+        title = title,
+        author = author,
+        publisher = publisher,
+        price = price,
+    )
 
     private fun List<Book>.toResponse(): List<BookResponse> = map {
         it.toResponse()
-    }
-
-    companion object {
-        const val VALID_PRICE = 1000
     }
 }
