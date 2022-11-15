@@ -1,5 +1,6 @@
 package dev.nemuki.cypherbookapi.web.entity
 
+import dev.nemuki.cypherbookapi.web.validator.HogeHogePublisherConstraint
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
@@ -24,6 +25,7 @@ data class InsertBookRequest(
     @get:NotEmpty
     @field:NotNull
     @field:Size(max = 100)
+    @HogeHogePublisherConstraint(price = 999)
     val publisher: String,
 
     @field:NotNull
