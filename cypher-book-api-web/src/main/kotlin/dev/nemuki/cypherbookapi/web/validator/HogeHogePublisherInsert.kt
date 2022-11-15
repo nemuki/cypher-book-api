@@ -9,14 +9,14 @@ import kotlin.reflect.KClass
 
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)
-@Constraint(validatedBy = [HogeHogePublisherValidator::class])
-annotation class HogeHogePublisherConstraint(
+@Constraint(validatedBy = [HogeHogePublisherInsertValidator::class])
+annotation class HogeHogePublisherInsert(
     val message: String = "ほげほげ書店はpriceが1000より大きい必要があります",
     val groups: Array<KClass<*>> = [],
     val payload: Array<KClass<out Payload>> = [],
 )
 
-class HogeHogePublisherValidator : ConstraintValidator<HogeHogePublisherConstraint, InsertBookRequest> {
+class HogeHogePublisherInsertValidator : ConstraintValidator<HogeHogePublisherInsert, InsertBookRequest> {
     override fun isValid(value: InsertBookRequest, context: ConstraintValidatorContext?): Boolean {
         if (value.publisher == "ほげほげ書店" && value.price < VALID_PRICE) {
             return false
