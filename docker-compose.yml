@@ -13,5 +13,14 @@ services:
       LANG: ja_JP.utf8
       POSTGRES_USER: cypher
       POSTGRES_PASSWORD: password
+  mockoon-cypher:
+    image: mockoon/cli:latest
+    command: mockoon-cli start --data /book-api.json
+    ports:
+      - "3000:3000"
+    volumes:
+      - type: bind
+        source: ./mockoon/book-api.json
+        target: /book-api.json
 volumes:
   db-store:
