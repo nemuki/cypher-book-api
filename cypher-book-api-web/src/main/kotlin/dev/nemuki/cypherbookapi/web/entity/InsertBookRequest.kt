@@ -1,12 +1,13 @@
 package dev.nemuki.cypherbookapi.web.entity
 
-import dev.nemuki.cypherbookapi.web.validator.HogeHogePublisherConstraint
+import dev.nemuki.cypherbookapi.web.validator.HogeHogePublisherInsert
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 import javax.validation.constraints.Size
 
-data class InsertBookRequest(
+@HogeHogePublisherInsert
+class InsertBookRequest(
     @get:NotEmpty
     @field:NotNull
     @field:Pattern(regexp = "^[0-9]{13}$")
@@ -25,7 +26,6 @@ data class InsertBookRequest(
     @get:NotEmpty
     @field:NotNull
     @field:Size(max = 100)
-    @HogeHogePublisherConstraint(price = 999)
     val publisher: String,
 
     @field:NotNull
