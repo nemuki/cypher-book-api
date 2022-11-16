@@ -10,6 +10,4 @@ data class Book(
     val price: Int,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
-) {
-    companion object
-}
+)
