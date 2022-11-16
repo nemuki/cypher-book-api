@@ -15,7 +15,7 @@
       "responses": [
         {
           "uuid": "b4389a91-01d0-4caf-97bc-9319fc0a80dd",
-          "body": "{\n  \"rating\": \"4.5\",\n  \"genre\": \"少年コミック\"\n}",
+          "body": "{\n  \"rating\": \"4.5\",\n  \"genre\": \"プログラミング入門書\"\n}",
           "latency": 0,
           "statusCode": 200,
           "label": "ISBN 9784798142470のratingとgenreを返却する",
