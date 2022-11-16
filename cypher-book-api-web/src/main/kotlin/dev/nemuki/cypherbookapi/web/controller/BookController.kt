@@ -84,6 +84,7 @@ class BookController(
         author = author,
         publisher = publisher,
         price = price,
+        option = option,
         createdAt = createdAt,
         updatedAt = updatedAt
     )
@@ -94,6 +95,7 @@ class BookController(
         author = author,
         publisher = publisher,
         price = price,
+        option = null,
         createdAt = null,
         updatedAt = null
     )

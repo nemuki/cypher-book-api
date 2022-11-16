@@ -1,9 +1,8 @@
-package dev.nemuki.cypherbookapi.web.entity
+package dev.nemuki.cypherbookapi.infra.entity
 
-import dev.nemuki.cypherbookapi.domain.entity.BookOption
 import java.time.LocalDateTime
 
-data class BookResponse(
+data class BookAddedOption(
     val isbn: String,
     val title: String,
     val author: String,
