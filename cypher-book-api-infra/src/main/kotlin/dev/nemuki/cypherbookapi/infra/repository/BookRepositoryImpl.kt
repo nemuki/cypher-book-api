@@ -43,7 +43,7 @@ class BookRepositoryImpl(
     }
 
     private fun getBookExtraOptionByIsbn(isbn: String): BookExtraOption? {
-        val uri = "http://localhost:3000/books/${isbn}/options"
+        val uri = "http://localhost:3000/books/${isbn}/extra"
         val result = try {
             restTemplate.getForObject(uri, BookExtraOption::class.java)
         } catch (ex: HttpClientErrorException) {

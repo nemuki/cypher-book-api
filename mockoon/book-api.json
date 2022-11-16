@@ -11,7 +11,7 @@
       "uuid": "00fc8140-5801-4dc4-9c1a-cc4216f25165",
       "documentation": "",
       "method": "get",
-      "endpoint": "books/9784798142470/options/",
+      "endpoint": "books/9784798142470/extra/",
       "responses": [
         {
           "uuid": "b4389a91-01d0-4caf-97bc-9319fc0a80dd",
