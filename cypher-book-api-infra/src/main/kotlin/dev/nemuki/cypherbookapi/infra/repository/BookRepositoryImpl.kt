@@ -5,7 +5,7 @@ import dev.nemuki.cypherbookapi.domain.error.business.AlreadyExistsException
 import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
 import dev.nemuki.cypherbookapi.domain.error.business.DatabaseAccessException
 import dev.nemuki.cypherbookapi.infra.entity.Book
-import dev.nemuki.cypherbookapi.infra.entity.BookOption
+import dev.nemuki.cypherbookapi.infra.entity.BookExtraOption
 import dev.nemuki.cypherbookapi.infra.entity.InsertBook
 import dev.nemuki.cypherbookapi.infra.entity.UpdateBook
 import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
@@ -30,24 +30,22 @@ class BookRepositoryImpl(
         return books.toEntities()
     }
 
-    override fun getByIsbn(isbn: String): dev.nemuki.cypherbookapi.domain.entity.BookAddedOption {
+    override fun getByIsbn(isbn: String): dev.nemuki.cypherbookapi.domain.entity.BookGet {
         val book = try {
             bookMapper.findByIsbn(isbn)
         } catch (ex: DataAccessException) {
             throw DatabaseAccessException("BookRepository#getByIsbnでエラーが発生しました")
         } ?: throw DataNotFoundException("No Book found. isbn=${isbn}")
 
-        val option = getBookOptionByIsbn(
-            book.isbn
-        )
+        val option = getBookExtraOptionByIsbn(book.isbn)
 
-        return addOption(book, option)
+        return addBookExtraOption(book, option)
     }
 
-    private fun getBookOptionByIsbn(isbn: String): BookOption? {
+    private fun getBookExtraOptionByIsbn(isbn: String): BookExtraOption? {
         val uri = "http://localhost:3000/books/${isbn}/options"
         val result = try {
-            restTemplate.getForObject(uri, BookOption::class.java)
+            restTemplate.getForObject(uri, BookExtraOption::class.java)
         } catch (ex: HttpClientErrorException) {
             null
         }
@@ -75,7 +73,7 @@ class BookRepositoryImpl(
 
     override fun update(
         isbn: String,
-        currentBookState: dev.nemuki.cypherbookapi.domain.entity.BookAddedOption,
+        currentBookState: dev.nemuki.cypherbookapi.domain.entity.BookGet,
         updateBookCondition: dev.nemuki.cypherbookapi.domain.entity.UpdateBookCondition,
     ) {
         try {
@@ -93,14 +91,14 @@ class BookRepositoryImpl(
         }
     }
 
-    private fun addOption(book: Book, option: BookOption?) =
-        dev.nemuki.cypherbookapi.domain.entity.BookAddedOption(
+    private fun addBookExtraOption(book: Book, option: BookExtraOption?) =
+        dev.nemuki.cypherbookapi.domain.entity.BookGet(
             isbn = book.isbn,
             title = book.title,
             author = book.author,
             publisher = book.publisher,
             price = book.price,
-            option = option?.toEntity(),
+            extra = option?.toEntity(),
             createdAt = book.createdAt,
             updatedAt = book.updatedAt,
         )
@@ -120,5 +118,5 @@ class BookRepositoryImpl(
         it.toEntity()
     }
 
-    private fun BookOption.toEntity() = dev.nemuki.cypherbookapi.domain.entity.BookOption(rating, genre)
+    private fun BookExtraOption.toEntity() = dev.nemuki.cypherbookapi.domain.entity.BookExtraOption(rating, genre)
 }

@@ -1,6 +1,6 @@
 package dev.nemuki.cypherbookapi.domain.entity
 
-data class BookOption(
+data class BookExtraOption(
     val rating: String,
     val genre: String,
 )

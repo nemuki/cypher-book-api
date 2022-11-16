@@ -4,7 +4,7 @@ import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.application.usecase.InsertBook
 import dev.nemuki.cypherbookapi.application.usecase.UpdateBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
-import dev.nemuki.cypherbookapi.domain.entity.BookAddedOption
+import dev.nemuki.cypherbookapi.domain.entity.BookGet
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
 import dev.nemuki.cypherbookapi.domain.entity.UpdateBookCondition
 import dev.nemuki.cypherbookapi.domain.error.business.InvalidArgumentException
@@ -90,13 +90,13 @@ class BookController(
         updatedAt = updatedAt
     )
 
-    private fun BookAddedOption.toResponse() = BookAddedOptionResponse(
+    private fun BookGet.toResponse() = BookAddedOptionResponse(
         isbn = isbn,
         title = title,
         author = author,
         publisher = publisher,
         price = price,
-        option = option,
+        extra = extra,
         createdAt = createdAt,
         updatedAt = updatedAt
     )

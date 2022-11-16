@@ -1,7 +1,7 @@
 package dev.nemuki.cypherbookapi.web.entity
 
 import com.fasterxml.jackson.annotation.JsonInclude
-import dev.nemuki.cypherbookapi.domain.entity.BookOption
+import dev.nemuki.cypherbookapi.domain.entity.BookExtraOption
 import java.time.LocalDateTime
 
 data class BookAddedOptionResponse(
@@ -11,7 +11,7 @@ data class BookAddedOptionResponse(
     val publisher: String,
     val price: Int,
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    val option: BookOption?,
+    val extra: BookExtraOption?,
     val createdAt: LocalDateTime?,
     val updatedAt: LocalDateTime?,
 )
