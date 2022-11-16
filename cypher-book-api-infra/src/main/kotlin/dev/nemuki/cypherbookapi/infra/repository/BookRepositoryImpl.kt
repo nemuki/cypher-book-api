@@ -5,12 +5,14 @@ import dev.nemuki.cypherbookapi.domain.error.business.AlreadyExistsException
 import dev.nemuki.cypherbookapi.domain.error.business.DataNotFoundException
 import dev.nemuki.cypherbookapi.domain.error.business.DatabaseAccessException
 import dev.nemuki.cypherbookapi.infra.entity.Book
+import dev.nemuki.cypherbookapi.infra.entity.BookOption
 import dev.nemuki.cypherbookapi.infra.entity.InsertBook
 import dev.nemuki.cypherbookapi.infra.entity.UpdateBook
 import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
 import org.springframework.dao.DataAccessException
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Repository
+import org.springframework.web.client.RestTemplate
 
 @Repository
 class BookRepositoryImpl(
@@ -34,6 +36,12 @@ class BookRepositoryImpl(
         } ?: throw DataNotFoundException("No Book found. isbn=${isbn}")
 
         return book.toEntity()
+    }
+
+    private fun getBookOptionByIsbn(isbn: String): BookOption? {
+        val uri = "http://localhost:3000/books/${isbn}/options"
+        val options = restTemplate.getForObject(uri, BookOption::class.java)
+        return options
     }
 
     override fun insert(book: dev.nemuki.cypherbookapi.domain.entity.Book) {
