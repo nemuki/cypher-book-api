@@ -1,9 +1,11 @@
 package dev.nemuki.cypherbookapi.web.entity
 
+import dev.nemuki.cypherbookapi.web.validator.HogeHogePublisherUpdate
 import javax.validation.constraints.Min
 import javax.validation.constraints.Size
 
-data class UpdateBookRequest(
+@HogeHogePublisherUpdate
+class UpdateBookRequest(
     @field:Size(max = 100)
     val title: String?,
 
