@@ -10,6 +10,7 @@ import dev.nemuki.cypherbookapi.infra.entity.InsertBook
 import dev.nemuki.cypherbookapi.infra.entity.UpdateBook
 import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.dao.DataAccessException
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Repository
@@ -20,6 +21,7 @@ import org.springframework.web.client.RestTemplate
 class BookRepositoryImpl(
     val bookMapper: BookMapper,
     val restTemplate: RestTemplate,
+    @Value("\${gateway.book-extra.host}") private val host: String,
 ) : BookRepository {
     override fun getAll(): List<dev.nemuki.cypherbookapi.domain.entity.Book> {
         val books = try {
@@ -44,7 +46,7 @@ class BookRepositoryImpl(
     }
 
     private fun getBookExtraOptionByIsbn(isbn: String): BookExtraOption? {
-        val uri = "http://localhost:3000/books/${isbn}/extra"
+        val uri = "${host}/books/${isbn}/extra"
         val result = try {
             restTemplate.getForObject(uri, BookExtraOption::class.java)
         } catch (ex: HttpClientErrorException) {
