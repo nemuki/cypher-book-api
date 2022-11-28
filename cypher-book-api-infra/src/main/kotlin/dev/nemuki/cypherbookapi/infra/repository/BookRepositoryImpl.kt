@@ -9,6 +9,7 @@ import dev.nemuki.cypherbookapi.infra.entity.BookExtraOption
 import dev.nemuki.cypherbookapi.infra.entity.InsertBook
 import dev.nemuki.cypherbookapi.infra.entity.UpdateBook
 import dev.nemuki.cypherbookapi.infra.mapper.BookMapper
+import org.slf4j.LoggerFactory
 import org.springframework.dao.DataAccessException
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Repository
@@ -47,6 +48,7 @@ class BookRepositoryImpl(
         val result = try {
             restTemplate.getForObject(uri, BookExtraOption::class.java)
         } catch (ex: HttpClientErrorException) {
+            logger.error(ex.localizedMessage)
             null
         }
         return result
@@ -119,4 +121,8 @@ class BookRepositoryImpl(
     }
 
     private fun BookExtraOption.toEntity() = dev.nemuki.cypherbookapi.domain.entity.BookExtraOption(rating, genre)
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(BookRepositoryImpl::class.java)
+    }
 }
