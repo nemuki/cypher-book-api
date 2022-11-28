@@ -21,3 +21,7 @@ server:
 logging:
   level:
     dev.nemuki.cypherbookapi: DEBUG
+
+gateway:
+  book-extra:
+    host: http://localhost:3000

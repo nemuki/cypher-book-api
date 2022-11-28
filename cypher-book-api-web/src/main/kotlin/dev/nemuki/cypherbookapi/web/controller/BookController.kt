@@ -4,9 +4,11 @@ import dev.nemuki.cypherbookapi.application.usecase.FetchBook
 import dev.nemuki.cypherbookapi.application.usecase.InsertBook
 import dev.nemuki.cypherbookapi.application.usecase.UpdateBook
 import dev.nemuki.cypherbookapi.domain.entity.Book
+import dev.nemuki.cypherbookapi.domain.entity.BookGet
 import dev.nemuki.cypherbookapi.domain.entity.Isbn
 import dev.nemuki.cypherbookapi.domain.entity.UpdateBookCondition
 import dev.nemuki.cypherbookapi.domain.error.business.InvalidArgumentException
+import dev.nemuki.cypherbookapi.web.entity.BookAddedOptionResponse
 import dev.nemuki.cypherbookapi.web.entity.BookResponse
 import dev.nemuki.cypherbookapi.web.entity.InsertBookRequest
 import dev.nemuki.cypherbookapi.web.entity.SuccessResponse
@@ -36,7 +38,7 @@ class BookController(
     }
 
     @GetMapping("/books/{isbn}")
-    fun getBookByIsbn(@PathVariable("isbn") @Pattern(regexp = "^[0-9]{13}$") isbn: String): BookResponse {
+    fun getBookByIsbn(@PathVariable("isbn") @Pattern(regexp = "^[0-9]{13}$") isbn: String): BookAddedOptionResponse {
         val book = fetchBook.fetchByIsbn(Isbn(isbn).isbn)
         return book.toResponse()
     }
@@ -84,6 +86,17 @@ class BookController(
         author = author,
         publisher = publisher,
         price = price,
+        createdAt = createdAt,
+        updatedAt = updatedAt
+    )
+
+    private fun BookGet.toResponse() = BookAddedOptionResponse(
+        isbn = isbn,
+        title = title,
+        author = author,
+        publisher = publisher,
+        price = price,
+        extra = extra,
         createdAt = createdAt,
         updatedAt = updatedAt
     )
